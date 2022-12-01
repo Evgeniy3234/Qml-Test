@@ -8,7 +8,7 @@ ApplicationWindow {
     id: mainWindow
     visible: true
     width: 640
-    height: 480
+    height: 600
     title: qsTr("Первое окно")
 
     Button {                            // Кнопка для открытия второго второстепенного окна приложения
@@ -18,74 +18,89 @@ ApplicationWindow {
         anchors.horizontalCenter: parent.horizontalCenter
         y: 20
 
+
         onClicked: {
             secondWindow.show()      // Открываем второе окно
             mainWindow.hide()       // Скрываем первое окно
         }
     }
     Flickable {
-        width: 360
-        height: 360
-        anchors.horizontalCenter: parent.horizontalCenter
-        y: 80
+            id: flickable
+            clip: true
+            width: 400
+            height: 300
+            y: 100
+            anchors.horizontalCenter: parent.horizontalCenter
 
         ListModel {
             id: dataModel
-
-            dynamicRoles: true               // делмаем типы ролей динамическими
+            dynamicRoles: true
             Component.onCompleted: {        // первичное монтирование
-                append({ color: "red" })
+                append({text:"Hello", color: "red" })
+                append({text:"User", color: "green" })
             }
         }
 
         Column {
             anchors.margins: 10
             anchors.fill: parent
+            anchors.horizontalCenter: parent.horizontalCenter
             spacing: 10
+
 
             ListView {
                 id: view
 
                 width: parent.width
-                height: parent.height - buttonAdd.height - parent.spacing
+                height: 300
                 spacing: 10
                 model: dataModel
-                clip: true                      // что бы при скролле элементы не налезали друг на друга
+                contentWidth: parent.width
+                contentHeight: parent.height
+                ScrollBar.vertical: ScrollBar { id: vbar; active: hbar.active }
 
                 delegate: Rectangle {
-                    width: view.width
+                    width: parent.width
                     height: 40
                     color: model.color
+                    Text {
+                            anchors.centerIn: parent
+                            renderType: Text.NativeRendering
+                            text: model.text || "New Rectangle"
+                      }
                     MouseArea {
                         anchors.fill: parent
                         onClicked: dataModel.remove(index)
                     }
                 }
             }
+        }
+    }
 
-            Rectangle {                       // кнопка Add
-                id: buttonAdd
+    Rectangle {
+        id: buttonAdd
 
-                width: 100
-                height: 40
-                anchors.horizontalCenter: parent.horizontalCenter
-                border {
-                    color: "black"
-                    width: 1
-                }
+        width: 100
+        height: 40
 
-                Text {
-                    anchors.centerIn: parent
-                    renderType: Text.NativeRendering
-                    text: "Add"
-                }
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: flickable.bottom
+        anchors.topMargin: 50
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: dataModel.append({ color: Qt.rgba(Math.random(),Math.random(),Math.random(),1) })
-                }
-            }
+        border {
+            color: "black"
+            width: 1
+        }
 
+        Text {
+            anchors.centerIn: parent
+            renderType: Text.NativeRendering
+            text: "Add"
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: dataModel.append({ color: Qt.rgba(Math.random(),Math.random(),Math.random(),1) })
         }
     }
 
@@ -94,8 +109,8 @@ ApplicationWindow {
         id: secondWindow
         title: qsTr("Второе окно")
 
-        onSignalExit: {              // Обработчик сигнала на открытие первого окна
-            secondWindow.close()    // Закрываем второе окно
+        onSignalExit: {            // Обработчик сигнала на открытие первого окна
+            secondWindow.close()   // Закрываем второе окно
             mainWindow.show()      // Показываем первое окно
         }
     }

@@ -21,28 +21,18 @@ Window {
     }
 
     Item {
-        width: 500
-        height: 350
+        width: 200
+        height: 250
         anchors.horizontalCenter: parent.horizontalCenter
         y: 200
-        Flickable {
-//               id: flickable
-//               clip: true
-               interactive: true
-                     boundsBehavior: Flickable.StopAtBounds
-                     contentHeight: flickme.height
-                     contentWidth: flickme.width*1.8
-                     width: 360
-                     height: 360/3
-                     Rectangle {
-                         id:flickme
-                         color: "yellow"
-                         width: 360
-                         height: 360/3}
+
+
+
         Flow {
             id: myModel
             anchors.fill: parent
             anchors.margins: 4
+
             spacing: 10
             Text { text: "Doasdfa sfasdfasdfasdfqafqa"; color: {Qt.rgba(Math.random(),Math.random(),Math.random(),1)} }
             Text { text: "Caawefawfaafqwefawefefqwaaeqwfa"; color: {Qt.rgba(Math.random(),Math.random(),Math.random(),1)} }
@@ -51,8 +41,7 @@ Window {
             Text { text: "Doasdfa sfasdfasdfasdfqafqa"; color: {Qt.rgba(Math.random(),Math.random(),Math.random(),1)} }
             Text { text: "Caawefawfaafqwefawefefqwaaeqwfa"; color: {Qt.rgba(Math.random(),Math.random(),Math.random(),1)} }
             Text { text: "Doasdfa sfasdfasdfasdfqafqa"; color: {Qt.rgba(Math.random(),Math.random(),Math.random(),1)} }
-            Text { text: "Caawefawfaafqwefawefefqwaaeqwfa"; color: {Qt.rgba(Math.random(),Math.random(),Math.random(),1)} }
-        }
+            Text { text: "Caawefawfaafqwefawefefqwaaeqwfa"; color: {Qt.rgba(Math.random(),Math.random(),Math.random(),1)}}
         }
 
         component MyDelegate : Rectangle {
